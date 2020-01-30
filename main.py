@@ -28,7 +28,8 @@ def public_telegram(token, chat_id, file_name, message):
         chat_id=chat_id,
         text=message,
     )
-    bot.send_photo(chat_id=chat_id, photo=open(file_name, 'rb'))
+    with open(file_name, 'rb') as image_file:
+        bot.send_photo(chat_id=chat_id, photo=image_file)
 
 
 def post_facebook(token, group_id, file_name, message):
@@ -37,10 +38,13 @@ def post_facebook(token, group_id, file_name, message):
         'caption': message,
         'access_token': token,
     }
-    files = {
-        'upload_file': open(file_name, 'rb'),
-    }
-    response = requests.post(url=url, params=params, files=files)
+    with open(file_name, 'rb') as image_file:
+        files = {
+            'upload_file': image_file,
+        }
+    response = requests.post(
+        url=url, params=params, files=files,
+    )
     response.raise_for_status()
 
 
