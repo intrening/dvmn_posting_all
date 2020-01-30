@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import vk_api
 import telegram
 import requests
+import argparse
 
 
 def public_vk(token, group_id, album_id, file_name, message):
@@ -53,7 +54,11 @@ def main():
     fb_access_token = os.getenv('FB_ACCESS_TOKEN')
     fb_group_id = os.getenv('FB_GROUP_ID')
 
-    # TODO add argparse filename, message
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename")
+    parser.add_argument("message")
+    args = parser.parse_args()
+    filename, message = args.filename, args.message
 
     public_vk(
         token=vk_access_token,
